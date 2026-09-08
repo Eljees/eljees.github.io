@@ -106,16 +106,26 @@ $md = [regex]::Replace($md, '(?s)(?<=<!-- OSS-STATS -->\r?\n).*?(?=\r?\n<!-- /OS
 Save-Utf8 $mdPath $md
 
 # ── 4. коммит и пуш ─────────────────────────────────────────────
+# git пишет предупреждения и прогресс в stderr; при ErrorActionPreference=Stop
+# PowerShell считает это ошибкой и обрывает скрипт — поэтому глушим поток и
+# проверяем результат по коду возврата.
+$ErrorActionPreference = 'Continue'
 foreach ($dir in @($SiteRoot, $RepoRoot)) {
+  $name = Split-Path -Leaf $dir
   Push-Location $dir
-  $dirty = git status --porcelain
-  if ($dirty) {
-    git add -A
-    git commit -m "Обновлены счётчики открытого кода: $merged смерджено, $open открыто ($today)" | Out-Null
-    git push | Out-Null
-    Log ("запушено: " + (Split-Path -Leaf $dir))
-  } else {
-    Log ("без изменений: " + (Split-Path -Leaf $dir))
+  try {
+    $dirty = git status --porcelain 2>&1 | Where-Object { $_ -notmatch '^warning:' }
+    if ($dirty) {
+      git add -A 2>&1 | Out-Null
+      git commit -m "Обновлены счётчики открытого кода: $merged смерджено, $open открыто ($today)" 2>&1 | Out-Null
+      if ($LASTEXITCODE -ne 0) { Log "$name : commit вернул $LASTEXITCODE"; Pop-Location; continue }
+      git push 2>&1 | Out-Null
+      if ($LASTEXITCODE -eq 0) { Log "$name : запушено" } else { Log "$name : push вернул $LASTEXITCODE" }
+    } else {
+      Log "$name : без изменений"
+    }
+  } catch {
+    Log "$name : сбой — $($_.Exception.Message)"
   }
   Pop-Location
 }
