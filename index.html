@@ -38,25 +38,19 @@ html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{
   margin:0;background:var(--bg);color:var(--fg);
   font:16px/1.7 var(--sans);padding:0 20px;overflow-x:hidden;
-  background-image:
-    radial-gradient(900px 500px at 12% -5%, rgba(255,45,149,.16), transparent 62%),
-    radial-gradient(760px 460px at 92% 8%, rgba(38,224,255,.13), transparent 60%),
-    radial-gradient(700px 700px at 50% 108%, rgba(255,45,149,.07), transparent 62%);
-  background-attachment:fixed;
 }
-/* сетка + сканлайны поверх фона */
-body::before{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    linear-gradient(rgba(38,224,255,.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(38,224,255,.045) 1px, transparent 1px);
-  background-size:52px 52px;
-  mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
-  -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%, #000 20%, transparent 78%);
-}
-body::after{
-  content:"";position:fixed;inset:0;pointer-events:none;z-index:1;opacity:.35;
-  background:repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.22) 2px 3px);
+/* один композитный слой: свечения + сетка + затухание + сканлайны */
+.bgfx{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 2px, rgba(0,0,0,.20) 2px 3px),
+    linear-gradient(180deg, rgba(6,7,13,0) 0%, rgba(6,7,13,.75) 55%, var(--bg) 96%),
+    linear-gradient(rgba(38,224,255,.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(38,224,255,.05) 1px, transparent 1px),
+    radial-gradient(900px 520px at 12% -4%, rgba(255,45,149,.20), transparent 62%),
+    radial-gradient(780px 470px at 92% 6%, rgba(38,224,255,.16), transparent 60%),
+    var(--bg);
+  background-size:auto,auto,52px 52px,52px 52px,auto,auto,auto;
 }
 .wrap{position:relative;z-index:2;max-width:820px;margin:0 auto;padding:44px 0 90px}
 a{color:var(--cyan);text-decoration:none;transition:color .15s,text-shadow .15s}
@@ -149,11 +143,12 @@ footer .prompt{color:var(--lime)}
 }
 @media (max-width:520px){
   .topbar{flex-direction:column;align-items:flex-start;gap:12px}
-  body::after{opacity:.22}
+  .bgfx{opacity:.9}
 }
 </style>
 </head>
 <body>
+<div class="bgfx" aria-hidden="true"></div>
 <div class="wrap">
 
 <div class="topbar">
