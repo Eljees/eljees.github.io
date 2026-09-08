@@ -117,6 +117,25 @@ h3{font:600 17px/1.4 var(--sans);margin:0 0 6px;color:var(--fg-bright)}
   border-bottom:1px solid rgba(38,224,255,.35)}
 .filelinks a::before{content:"▸ ";color:var(--mag)}
 
+/* ── встроенные плееры ─────────────────────────────── */
+.video{position:relative;margin:14px 0 0;max-width:560px;aspect-ratio:16/9;
+  border:1px solid var(--line-hot);background:
+    radial-gradient(120% 120% at 50% 45%, rgba(255,45,149,.16), transparent 62%),
+    linear-gradient(160deg, #10131f, #0a0c15);
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+  transition:border-color .2s,box-shadow .2s;overflow:hidden}
+.video:hover{border-color:var(--mag);box-shadow:0 0 32px rgba(255,45,149,.16)}
+.video .play{position:absolute;inset:0;width:100%;height:100%;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  background:none;border:0;cursor:pointer;color:var(--fg-bright);
+  font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.video .play::before{content:"";width:0;height:0;
+  border-left:22px solid var(--mag);border-top:14px solid transparent;border-bottom:14px solid transparent;
+  filter:drop-shadow(0 0 14px rgba(255,45,149,.75));transition:transform .2s}
+.video:hover .play::before{transform:scale(1.12)}
+.video .play span{color:var(--dim)}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+
 /* ── карточки метрик ───────────────────────────────── */
 .grid{display:grid;gap:16px}
 @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
@@ -206,6 +225,11 @@ footer .prompt{color:var(--lime)}
     <a href="https://offzone.moscow/upload/iblock/b9f/4dpabonhkb2shd94u1amvqpxpqk2vgkm/AppSec_Zone_Tumanov_%D0%9EFFZONE2026.pdf" data-ru="Презентация" data-en="Slides">Презентация</a>
     <a href="https://offzone.moscow/program/zerofalse-for-sast-local-llms-evidence-gating-and-triage-without-hallucinated-verdicts/" data-ru="Страница доклада" data-en="Talk page">Страница доклада</a>
   </p>
+  <div class="video" data-src="https://vkvideo.ru/video_ext.php?oid=-172362100&amp;id=456239390&amp;hd=2&amp;autoplay=1">
+    <button class="play" type="button" aria-label="Смотреть видео">
+      <span data-ru="Запустить · VK Видео" data-en="Play · VK Видео">Запустить · VK Видео</span>
+    </button>
+  </div>
 </div>
 
 <div class="item">
@@ -226,12 +250,22 @@ footer .prompt{color:var(--lime)}
   <h3>Positive Hack Days 2024</h3>
   <p class="meta">2024</p>
   <p class="filelinks"><a href="https://vk.com/video-28022322_456240844" data-ru="Запись" data-en="Recording">Запись</a></p>
+  <div class="video" data-src="https://vkvideo.ru/video_ext.php?oid=-28022322&amp;id=456240844&amp;hd=2&amp;autoplay=1">
+    <button class="play" type="button" aria-label="Смотреть видео">
+      <span data-ru="Запустить · VK Видео" data-en="Play · VK Видео">Запустить · VK Видео</span>
+    </button>
+  </div>
 </div>
 
 <div class="item">
   <h3>OSday</h3>
   <p class="meta" data-ru="24 июня 2022" data-en="24 June 2022">24 июня 2022</p>
   <p class="filelinks"><a href="https://youtu.be/IZNjxJoBg-c?t=26776" data-ru="Запись (с 7:26:14)" data-en="Recording (from 7:26:14)">Запись (с 7:26:14)</a></p>
+  <div class="video" data-src="https://www.youtube-nocookie.com/embed/IZNjxJoBg-c?start=26776&amp;autoplay=1">
+    <button class="play" type="button" aria-label="Смотреть видео">
+      <span data-ru="Запустить · YouTube" data-en="Play · YouTube">Запустить · YouTube</span>
+    </button>
+  </div>
 </div>
 
 <div class="year">2009 — 2012</div>
@@ -240,6 +274,11 @@ footer .prompt{color:var(--lime)}
   <h3 data-ru="Защита кандидатской диссертации" data-en="Ph.D. thesis defense">Защита кандидатской диссертации</h3>
   <p class="meta" data-ru="28 мая 2012 · диссертационный совет ДМ 212.130.08 при НИЯУ МИФИ" data-en="28 May 2012 · dissertation council DM 212.130.08 at MEPhI">28 мая 2012 · диссертационный совет ДМ 212.130.08 при НИЯУ МИФИ</p>
   <p class="filelinks"><a href="https://vk.com/video196891_167335441" data-ru="Запись" data-en="Recording">Запись</a></p>
+  <div class="video" data-src="https://vkvideo.ru/video_ext.php?oid=196891&amp;id=167335441&amp;hd=2&amp;autoplay=1">
+    <button class="play" type="button" aria-label="Смотреть видео">
+      <span data-ru="Запустить · VK Видео" data-en="Play · VK Видео">Запустить · VK Видео</span>
+    </button>
+  </div>
 </div>
 
 <div class="item">
@@ -388,6 +427,26 @@ footer .prompt{color:var(--lime)}
   var saved=null; try{ saved=localStorage.getItem('lang'); }catch(e){}
   if(saved==='en') apply('en');
 })();
+</script>
+
+<script>
+/* Плееры подгружаются только после клика: до этого страница не делает
+   ни одного запроса к VK или YouTube. */
+document.querySelectorAll('.video').forEach(function(box){
+  box.addEventListener('click', function(){
+    var src = box.getAttribute('data-src');
+    if(!src) return;
+    var f = document.createElement('iframe');
+    f.src = src;
+    f.allow = 'autoplay; encrypted-media; fullscreen; picture-in-picture';
+    f.allowFullscreen = true;
+    f.loading = 'lazy';
+    f.referrerPolicy = 'strict-origin-when-cross-origin';
+    box.innerHTML = '';
+    box.appendChild(f);
+    box.removeAttribute('data-src');
+  }, {once:true});
+});
 </script>
 
 <!-- Yandex.Metrika counter -->
