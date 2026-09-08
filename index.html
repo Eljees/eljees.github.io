@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Юрий Туманов — AppSec, MLSecOps, LLM-триаж SAST</title>
+<meta name="description" content="Юрий Туманов — к.т.н., ведущий эксперт по безопасной разработке и MLSecOps. Публикации и выступления: evidence-first триаж SAST на локальных языковых моделях.">
+<meta property="og:title" content="Юрий Туманов — AppSec, MLSecOps, LLM-триаж SAST">
+<meta property="og:description" content="Публикации и выступления: доказательный триаж SAST на локальных LLM.">
+<meta property="og:type" content="profile">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◪</text></svg>">
+<style>
+:root{
+  --bg:#0e1116; --bg-soft:#151a21; --line:#242b35;
+  --fg:#d8dee9; --fg-dim:#8b95a5; --fg-bright:#f2f5f9;
+  --accent:#7ec8a9; --accent-dim:#4f8d76;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme: light){
+  :root{ --bg:#fbfbf9; --bg-soft:#f2f2ee; --line:#e0e0d8;
+         --fg:#2b2f36; --fg-dim:#6b7280; --fg-bright:#12151a;
+         --accent:#2f7a5c; --accent-dim:#3f8f6e; }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--sans);
+     padding:0 20px;}
+.wrap{max-width:760px;margin:0 auto;padding:56px 0 80px}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:var(--accent-dim)}
+h1{font:600 28px/1.25 var(--sans);margin:0 0 6px;color:var(--fg-bright);letter-spacing:-.01em}
+h2{font:600 13px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+   color:var(--fg-dim);margin:56px 0 20px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+h3{font:600 16px/1.4 var(--sans);margin:0 0 4px;color:var(--fg-bright)}
+p{margin:0 0 14px}
+.role{font:13px/1.5 var(--mono);color:var(--accent);margin:0 0 18px}
+.lede{color:var(--fg);margin-bottom:22px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;padding:0;list-style:none}
+.links a{font:12px/1 var(--mono);border:1px solid var(--line);border-radius:4px;
+        padding:8px 11px;color:var(--fg-dim);background:var(--bg-soft);display:inline-block}
+.links a:hover{color:var(--accent);border-color:var(--accent-dim)}
+.item{margin:0 0 26px;padding-left:16px;border-left:2px solid var(--line)}
+.item:hover{border-left-color:var(--accent-dim)}
+.meta{font:12px/1.5 var(--mono);color:var(--fg-dim);margin:0 0 6px}
+.desc{color:var(--fg-dim);font-size:15px;margin:6px 0 0}
+.res{font:12px/1.5 var(--mono);color:var(--fg-dim);border:1px solid var(--line);
+     border-radius:4px;padding:4px 8px;display:inline-block;margin:8px 8px 0 0;background:var(--bg-soft)}
+.filelinks{margin-top:8px;font-size:14px}
+.filelinks a{margin-right:14px}
+.grid{display:grid;gap:14px}
+@media(min-width:620px){.grid{grid-template-columns:1fr 1fr}}
+.card{border:1px solid var(--line);border-radius:6px;padding:14px 16px;background:var(--bg-soft)}
+.card b{display:block;color:var(--fg-bright);font-size:15px;margin-bottom:4px}
+.card span{font-size:14px;color:var(--fg-dim)}
+.year{font:600 12px/1 var(--mono);color:var(--fg-dim);letter-spacing:.1em;margin:34px 0 16px}
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);
+       font:12px/1.7 var(--mono);color:var(--fg-dim)}
+[hidden]{display:none!important}
+.langbar{float:right;font:12px/1 var(--mono)}
+.langbar button{background:none;border:1px solid var(--line);color:var(--fg-dim);
+  border-radius:4px;padding:6px 9px;cursor:pointer;font:inherit;margin-left:4px}
+.langbar button[aria-pressed="true"]{color:var(--accent);border-color:var(--accent-dim)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="langbar">
+  <button id="btn-ru" aria-pressed="true">RU</button><button id="btn-en" aria-pressed="false">EN</button>
+</div>
+
+<header>
+  <h1>Юрий Туманов</h1>
+  <p class="role" data-ru="к.т.н. · AppSec / MLSecOps · evidence-first триаж SAST" data-en="Ph.D. · AppSec / MLSecOps · evidence-anchored SAST triage">к.т.н. · AppSec / MLSecOps · evidence-first триаж SAST</p>
+  <p class="lede" data-ru="Ведущий эксперт по безопасной разработке и MLSecOps в «Ростелекоме». Более 17 лет в информационной безопасности: secure SDLC, внедрение SAST, DAST и SCA, управление уязвимостями, безопасность CI/CD. Ранее — МТС, «СберТех», НТЦ ИТ РОСА; преподавал в НИЯУ МИФИ."
+     data-en="Lead expert in secure development and MLSecOps at Rostelecom. Over 17 years in information security: secure SDLC, SAST/DAST/SCA rollout, vulnerability management, CI/CD security. Previously at MTS, SberTech and ROSA; taught at MEPhI.">Ведущий эксперт по безопасной разработке и MLSecOps в «Ростелекоме». Более 17 лет в информационной безопасности: secure SDLC, внедрение SAST, DAST и SCA, управление уязвимостями, безопасность CI/CD. Ранее — МТС, «СберТех», НТЦ ИТ РОСА; преподавал в НИЯУ МИФИ.</p>
+  <p class="lede" data-ru="Текущая линия исследований — ZeroFalse: доказательный триаж срабатываний статического анализа локальными языковыми моделями внутри закрытого контура. Модель не получает права на вердикт, пока не сошлётся на проверяемые улики в коде; при нехватке улик отвечает Unknown и передаёт находку человеку."
+     data-en="Current research line — ZeroFalse: evidence-anchored triage of static-analysis findings with local language models inside a closed perimeter. The model may not issue a verdict until it cites verifiable evidence in the code; when evidence is insufficient it answers Unknown and routes the finding to a human.">Текущая линия исследований — ZeroFalse: доказательный триаж срабатываний статического анализа локальными языковыми моделями внутри закрытого контура. Модель не получает права на вердикт, пока не сошлётся на проверяемые улики в коде; при нехватке улик отвечает Unknown и передаёт находку человеку.</p>
+  <ul class="links">
+    <li><a href="https://www.linkedin.com/in/yury-tumanov-bb55b531/">LinkedIn</a></li>
+    <li><a href="https://github.com/Eljees">GitHub</a></li>
+    <li><a href="https://habr.com/ru/companies/rostelecom/articles/1059670/">Habr</a></li>
+  </ul>
+</header>
+
+<h2 data-ru="Результаты" data-en="Headline results">Результаты</h2>
+<div class="grid">
+  <div class="card"><b>746</b><span data-ru="срабатываний SAST, размеченных экспертами независимо от модели. Совпадение 80,8 % на 276 содержательных решениях, 93,8 % на пяти отобранных классах CWE" data-en="SAST findings labeled by experts independently of the model. 80.8% agreement on 276 substantive decisions, 93.8% on five selected CWE classes">срабатываний SAST, размеченных экспертами независимо от модели. Совпадение 80,8 % на 276 содержательных решениях, 93,8 % на пяти отобранных классах CWE</span></div>
+  <div class="card"><b>75 727</b><span data-ru="уникальных находок в ретроспективной выборке: precision 98,5 %, recall 74,6 %, F1 0,85 для класса Confirmed при доле Unknown 9,6 %" data-en="unique findings in a retrospective set: 98.5% precision, 74.6% recall, 0.85 F1 for the Confirmed class at a 9.6% Unknown rate">уникальных находок в ретроспективной выборке: precision 98,5 %, recall 74,6 %, F1 0,85 для класса Confirmed при доле Unknown 9,6 %</span></div>
+  <div class="card"><b>7 607 → 3 413</b><span data-ru="входных токенов после детерминированной дистилляции улик — при сохранении совпадения 0,92 на решённых случаях" data-en="input tokens after deterministic evidence distillation — while keeping 0.92 agreement on decided cases">входных токенов после детерминированной дистилляции улик — при сохранении совпадения 0,92 на решённых случаях</span></div>
+  <div class="card"><b>Qwen2.5-Coder-14B-AWQ</b><span data-ru="на vLLM, одна потребительская видеокарта с 16 ГБ VRAM — весь конвейер внутри закрытого контура" data-en="on vLLM, a single consumer GPU with 16 GB VRAM — the whole pipeline inside a closed perimeter">на vLLM, одна потребительская видеокарта с 16 ГБ VRAM — весь конвейер внутри закрытого контура</span></div>
+</div>
+
+<h2 data-ru="Выступления" data-en="Talks">Выступления</h2>
+
+<div class="year">2026</div>
+
+<div class="item">
+  <h3 data-ru="ZeroFalse для SAST: локальные LLM, evidence-gate и триаж без галлюцинаций" data-en="ZeroFalse for SAST: local LLMs, evidence gating and triage without hallucinated verdicts">ZeroFalse для SAST: локальные LLM, evidence-gate и триаж без галлюцинаций</h3>
+  <p class="meta">OFFZONE 2026 · AppSec.Zone · <span data-ru="20–21 августа 2026, Москва" data-en="20–21 August 2026, Moscow">20–21 августа 2026, Москва</span></p>
+  <p class="desc" data-ru="Архитектура конвейера, эволюция промптов, evidence-gate, детерминированная поствалидация, метрики качества и случаи, в которых красивому ответу модели верить нельзя." data-en="Pipeline architecture, prompt evolution, the evidence gate, deterministic post-validation, quality metrics, and the cases where a convincing model answer must not be trusted.">Архитектура конвейера, эволюция промптов, evidence-gate, детерминированная поствалидация, метрики качества и случаи, в которых красивому ответу модели верить нельзя.</p>
+  <p class="filelinks">
+    <a href="https://vkvideo.ru/video-172362100_456239390?list=ln-YbfwmNCdSIArcm950D" data-ru="Видео" data-en="Video">Видео</a>
+    <a href="https://offzone.moscow/upload/iblock/b9f/4dpabonhkb2shd94u1amvqpxpqk2vgkm/AppSec_Zone_Tumanov_%D0%9EFFZONE2026.pdf" data-ru="Презентация" data-en="Slides">Презентация</a>
+    <a href="https://offzone.moscow/program/zerofalse-for-sast-local-llms-evidence-gating-and-triage-without-hallucinated-verdicts/" data-ru="Страница доклада" data-en="Talk page">Страница доклада</a>
+  </p>
+</div>
+
+<div class="item">
+  <h3 data-ru="От мешка false positive до нормального вердикта: паяем ZeroFalse-inspired LLM-триаж на локальных моделях" data-en="From a sack of false positives to a real verdict: soldering ZeroFalse-inspired LLM triage on local models">От мешка false positive до нормального вердикта: паяем ZeroFalse-inspired LLM-триаж на локальных моделях</h3>
+  <p class="meta">ёPRSTCON 2026 · locB «Магистраль» · <span data-ru="май 2026" data-en="May 2026">май 2026</span></p>
+  <p class="desc" data-ru="Полгода доводки локальной модели до состояния, в котором она триажит срабатывания SAST: эвристический препроцессинг, строгий JSON-контракт, еженедельная калибровка по размеченным примерам." data-en="Six months of tuning a local model until it could triage SAST findings: heuristic preprocessing, a strict JSON contract, weekly calibration against labeled examples.">Полгода доводки локальной модели до состояния, в котором она триажит срабатывания SAST: эвристический препроцессинг, строгий JSON-контракт, еженедельная калибровка по размеченным примерам.</p>
+  <p class="filelinks"><a href="https://www.yoprstcon.ru/articles_manual_locB_html/11-zerofalse-llm-triage.html" data-ru="Видео, слайды и транскрипт" data-en="Video, slides and transcript">Видео, слайды и транскрипт</a></p>
+</div>
+
+<div class="item">
+  <h3>STF Talks</h3>
+  <p class="meta" data-ru="2026 · участие подтверждено организаторами" data-en="2026 · participation confirmed by the organizers">2026 · участие подтверждено организаторами</p>
+</div>
+
+<div class="year">2024 · 2022 · 2012</div>
+
+<div class="item">
+  <h3>Positive Hack Days 2024</h3>
+  <p class="meta">2024</p>
+  <p class="filelinks"><a href="https://vk.com/video-28022322_456240844" data-ru="Запись" data-en="Recording">Запись</a></p>
+</div>
+
+<div class="item">
+  <h3>OSday</h3>
+  <p class="meta" data-ru="24 июня 2022" data-en="24 June 2022">24 июня 2022</p>
+  <p class="filelinks"><a href="https://youtu.be/IZNjxJoBg-c?t=26776" data-ru="Запись (с 7:26:14)" data-en="Recording (from 7:26:14)">Запись (с 7:26:14)</a></p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Защита кандидатской диссертации" data-en="Ph.D. thesis defense">Защита кандидатской диссертации</h3>
+  <p class="meta">2012</p>
+  <p class="filelinks"><a href="https://vk.com/video196891_167335441" data-ru="Запись" data-en="Recording">Запись</a></p>
+</div>
+
+<div class="year">2009 – 2011</div>
+
+<div class="item">
+  <h3 data-ru="Выявление интерпретируемого вредоносного кода на основе поведенческих сигнатур" data-en="Detecting interpreted malicious code with behavioural signatures">Выявление интерпретируемого вредоносного кода на основе поведенческих сигнатур</h3>
+  <p class="meta" data-ru="Научная сессия НИЯУ МИФИ-2011" data-en="Scientific session of NRNU MEPhI-2011">Научная сессия НИЯУ МИФИ-2011</p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Использование поведенческого анализа для выявления вредоносного кода, на примере JavaScript сценариев" data-en="Behaviour analysis for malicious code detection, the case of JavaScript">Использование поведенческого анализа для выявления вредоносного кода, на примере JavaScript сценариев</h3>
+  <p class="meta" data-ru="7-я Курчатовская молодёжная научная школа · РНЦ «Курчатовский институт» · 10–12 ноября 2009, Москва" data-en="7th Kurchatov Youth Scientific School · Kurchatov Institute · 10–12 November 2009, Moscow">7-я Курчатовская молодёжная научная школа · РНЦ «Курчатовский институт» · 10–12 ноября 2009, Москва</p>
+</div>
+
+<h2 data-ru="Публикации" data-en="Publications">Публикации</h2>
+
+<div class="year">2026</div>
+
+<div class="item">
+  <h3 data-ru="Искусственный интеллект в арсенале нарушителя: анализ новых вызовов информационной безопасности" data-en="Artificial intelligence in the adversary's arsenal: an analysis of new information-security challenges">Искусственный интеллект в арсенале нарушителя: анализ новых вызовов информационной безопасности</h3>
+  <p class="meta" data-ru="Коркин И. Ю., Туманов Ю. М., Докучаева О. Н. · «Вопросы кибербезопасности», № 4, 2026, с. 64 · ВАК, РИНЦ · DOI 10.21681/2311-3456-2026-4" data-en="I. Korkin, Yu. Tumanov, O. Dokuchaeva · Voprosy kiberbezopasnosti, No. 4, 2026, p. 64 · DOI 10.21681/2311-3456-2026-4">Коркин И. Ю., Туманов Ю. М., Докучаева О. Н. · «Вопросы кибербезопасности», № 4, 2026, с. 64 · ВАК, РИНЦ · DOI 10.21681/2311-3456-2026-4</p>
+  <p class="desc" data-ru="Классификация угроз, где ИИ рассматривается одновременно как инструмент атаки и как её объект: генерация фишинга и дипфейков, just-in-time вредоносные модули, prompt injection, отравление обучающих данных, состязательные атаки, а также технические и правовые меры противодействия." data-en="A threat classification treating AI simultaneously as an attack tool and an attack target: phishing and deepfake generation, just-in-time malicious modules, prompt injection, training-data poisoning, adversarial attacks, and the technical and legal countermeasures.">Классификация угроз, где ИИ рассматривается одновременно как инструмент атаки и как её объект: генерация фишинга и дипфейков, just-in-time вредоносные модули, prompt injection, отравление обучающих данных, состязательные атаки, а также технические и правовые меры противодействия.</p>
+</div>
+
+<div class="item">
+  <h3>Weaponizing Intelligence: AI in the Hacker's Arsenal</h3>
+  <p class="meta">Igor Korkin, Yuriy Tumanov, Oksana Dokuchaeva · eForensics Magazine, Vol. 13 No. 04 · pp. 26–36</p>
+  <p class="desc" data-ru="Поверхности атаки на большие языковые модели: отравление контекста и вывод корпоративных данных через активные браузерные сессии пользователя." data-en="Attack surfaces of large language models: context poisoning and corporate data exfiltration through the user's active browser sessions.">Поверхности атаки на большие языковые модели: отравление контекста и вывод корпоративных данных через активные браузерные сессии пользователя.</p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Звезда в машинном тумане: как ИИ стал оружием, мишенью и чужим голосом в браузере" data-en="A star in the machine fog: how AI became a weapon, a target and someone else's voice in your browser">Звезда в машинном тумане: как ИИ стал оружием, мишенью и чужим голосом в браузере</h3>
+  <p class="meta" data-ru="Туманов Ю. М., Коркин И. Ю., Докучаева О. Н. · Хабр, блог «Ростелекома» · 30 июля 2026" data-en="Yu. Tumanov, I. Korkin, O. Dokuchaeva · Habr, Rostelecom blog · 30 July 2026">Туманов Ю. М., Коркин И. Ю., Докучаева О. Н. · Хабр, блог «Ростелекома» · 30 июля 2026</p>
+  <p class="filelinks"><a href="https://habr.com/ru/companies/rostelecom/articles/1064994/" data-ru="Читать" data-en="Read">Читать</a></p>
+</div>
+
+<div class="item">
+  <h3 data-ru="False positive под небом цвета телевизора, настроенного на мёртвый канал" data-en="False positives under a sky the colour of television, tuned to a dead channel">False positive под небом цвета телевизора, настроенного на мёртвый канал</h3>
+  <p class="meta" data-ru="Туманов Ю. М. · Хабр, блог «Ростелекома» · 16 июля 2026" data-en="Yu. Tumanov · Habr, Rostelecom blog · 16 July 2026">Туманов Ю. М. · Хабр, блог «Ростелекома» · 16 июля 2026</p>
+  <p class="filelinks"><a href="https://habr.com/ru/companies/rostelecom/articles/1059670/" data-ru="Читать" data-en="Read">Читать</a></p>
+</div>
+
+<div class="item">
+  <h3>Evidence-Gated SAST Triage with Small Local LLMs: A ZeroFalse-Inspired Precision-First Pipeline</h3>
+  <p class="meta" data-ru="CCCI 2026 · принято к публикации" data-en="CCCI 2026 · accepted">CCCI 2026 · принято к публикации</p>
+</div>
+
+<div class="year">2009 – 2011</div>
+
+<div class="item">
+  <h3 data-ru="Защита среды распределенных вычислений при помощи искусственных иммунных систем" data-en="Protecting a distributed computing environment with artificial immune systems">Защита среды распределенных вычислений при помощи искусственных иммунных систем</h3>
+  <p class="meta" data-ru="Моисеев А. В., Станкевичус А. А., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 4, 2011, с. 103–105" data-en="A. Moiseev, A. Stankevichus, Yu. Tumanov · IT Security, MEPhI, No. 4, 2011, pp. 103–105">Моисеев А. В., Станкевичус А. А., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 4, 2011, с. 103–105</p>
+  <p class="desc" data-ru="Работа выполнена в ходе НИР по государственному контракту № П1314, ФЦП «Научные и научно-педагогические кадры инновационной России» на 2009–2013 годы." data-en="Carried out under state contract No. P1314 within the federal programme for research and teaching personnel of innovative Russia, 2009–2013.">Работа выполнена в ходе НИР по государственному контракту № П1314, ФЦП «Научные и научно-педагогические кадры инновационной России» на 2009–2013 годы.</p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Поиск уязвимостей по бинарному коду с помощью проверки выполнимости ограничений" data-en="Vulnerability detection in binary code based on constraint satisfiability checking">Поиск уязвимостей по бинарному коду с помощью проверки выполнимости ограничений</h3>
+  <p class="meta" data-ru="Филоненко А. В., Исаев И. К., Сидоров Д. В., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 2, 2010, с. 83" data-en="A. Filonenko, I. Isaev, D. Sidorov, Yu. Tumanov · IT Security, MEPhI, No. 2, 2010, p. 83">Филоненко А. В., Исаев И. К., Сидоров Д. В., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 2, 2010, с. 83</p>
+  <p class="desc" data-ru="Тестирование на основе моделей, инструмент Avalanche поверх Valgrind и решателя STP." data-en="Model-based testing with Avalanche on top of Valgrind and the STP solver.">Тестирование на основе моделей, инструмент Avalanche поверх Valgrind и решателя STP.</p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Использование поведенческого анализа с применением поведенческих сигнатур для выявления вредоносного кода на примере JavaScript-сценариев" data-en="Behavioural analysis with behavioural signatures for malicious code detection, the case of JavaScript">Использование поведенческого анализа с применением поведенческих сигнатур для выявления вредоносного кода на примере JavaScript-сценариев</h3>
+  <p class="meta" data-ru="Туманов Ю. М., Гаврилюк С. В. · «Безопасность информационных технологий», НИЯУ МИФИ, № 1, 2010" data-en="Yu. Tumanov, S. Gavrilyuk · IT Security, MEPhI, No. 1, 2010">Туманов Ю. М., Гаврилюк С. В. · «Безопасность информационных технологий», НИЯУ МИФИ, № 1, 2010</p>
+  <p class="filelinks"><a href="https://bit.mephi.ru/index.php/bit/article/view/791" data-ru="Страница статьи" data-en="Article page">Страница статьи</a></p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Разработка метода защиты вычислительных Грид-сетей от намеренного искажения результата вычислений" data-en="A method for protecting grid networks from deliberate corruption of computation results">Разработка метода защиты вычислительных Грид-сетей от намеренного искажения результата вычислений</h3>
+  <p class="meta" data-ru="Гаврилюк С. В., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 1, 2010" data-en="S. Gavrilyuk, Yu. Tumanov · IT Security, MEPhI, No. 1, 2010">Гаврилюк С. В., Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 1, 2010</p>
+</div>
+
+<div class="item">
+  <h3 data-ru="Обнаружение вредоносных сценариев JavaScript на основе поведенческих сигнатур" data-en="Detecting malicious JavaScript with behavioural signatures">Обнаружение вредоносных сценариев JavaScript на основе поведенческих сигнатур</h3>
+  <p class="meta" data-ru="Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 4, 2009, с. 63" data-en="Yu. Tumanov · IT Security, MEPhI, No. 4, 2009, p. 63">Туманов Ю. М. · «Безопасность информационных технологий», НИЯУ МИФИ, № 4, 2009, с. 63</p>
+</div>
+
+<h2 data-ru="Направления" data-en="Research lines">Направления</h2>
+<p><span class="res">ZeroFalse</span><span class="res" data-ru="property-based триаж" data-en="property-based triage">property-based триаж</span><span class="res" data-ru="контекстное окно как ограничение" data-en="context window as a constraint">контекстное окно как ограничение</span><span class="res" data-ru="ИИ в арсенале нарушителя" data-en="AI in the adversary's arsenal">ИИ в арсенале нарушителя</span><span class="res" data-ru="безопасность ИИ-агентов" data-en="AI agent security">безопасность ИИ-агентов</span><span class="res">OWASP LLM Top 10</span></p>
+
+<footer>
+  <span data-ru="Обновлено 8 сентября 2026" data-en="Updated 8 September 2026">Обновлено 8 сентября 2026</span> ·
+  <a href="https://github.com/Eljees/eljees.github.io">source</a>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var btnRu=document.getElementById('btn-ru'), btnEn=document.getElementById('btn-en');
+  function apply(lang){
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-ru]').forEach(function(el){
+      var v=el.getAttribute('data-'+lang);
+      if(v) el.textContent=v;
+    });
+    btnRu.setAttribute('aria-pressed', lang==='ru');
+    btnEn.setAttribute('aria-pressed', lang==='en');
+    try{ localStorage.setItem('lang', lang); }catch(e){}
+  }
+  btnRu.addEventListener('click',function(){apply('ru');});
+  btnEn.addEventListener('click',function(){apply('en');});
+  var saved=null;
+  try{ saved=localStorage.getItem('lang'); }catch(e){}
+  if(!saved) saved=(navigator.language||'').slice(0,2)==='ru'?'ru':'ru';
+  if(saved==='en') apply('en');
+})();
+</script>
+
+<!-- Yandex.Metrika counter -->
+<!-- Подставь номер счётчика вместо 0 в строке ниже — и всё заработает. -->
+<script type="text/javascript">
+var YM_COUNTER_ID = 0;
+if (YM_COUNTER_ID) {
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();
+  for (var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+  ym(YM_COUNTER_ID, 'init', {ssr:true, webvisor:false, clickmap:true, trackLinks:true, accurateTrackBounce:true});
+  var ns=document.createElement('noscript');
+  ns.innerHTML='<div><img src="https://mc.yandex.ru/watch/'+YM_COUNTER_ID+'" style="position:absolute;left:-9999px" alt="" /></div>';
+  document.body.appendChild(ns);
+}
+</script>
+<!-- /Yandex.Metrika counter -->
+
+</body>
+</html>
