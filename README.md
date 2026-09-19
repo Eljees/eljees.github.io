@@ -32,5 +32,18 @@ trackLinks (учёт переходов по внешним ссылкам) и a
 git add -A && git commit -m "обновил портфолио" && git push
 ```
 
-Полный внутренний реестр (включая поданные и неотобранные заявки) ведётся отдельно
-в приватном репозитории `tumanov-portfolio`.
+Полный реестр (включая поданные и неотобранные заявки) ведётся отдельно в репозитории
+[tumanov-portfolio](https://github.com/Eljees/tumanov-portfolio).
+
+## Где ещё
+
+- Реестр публикаций и выступлений — https://github.com/Eljees/tumanov-portfolio
+- Google Scholar — https://scholar.google.com/citations?user=iH0LwcAAAAAJ
+- LinkedIn — https://www.linkedin.com/in/yury-tumanov-bb55b531/
+
+## Презентации
+
+Папка `slides/` — PDF-версии докладов, на них ссылается страница:
+
+- `slides/Tumanov_ZeroFalse_ISCRA_2026.pdf` — ISCRA Talks 2026
+- `slides/Tumanov_ZeroFalse_OFFZONE_2026.pdf` — OFFZONE 2026, трек AppSec.Zone
