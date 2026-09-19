@@ -201,14 +201,14 @@ footer .prompt{color:var(--lime)}
 
 <h2><span class="hash">//</span><span data-ru="Открытый код" data-en="Open source">Открытый код</span><span class="bar"></span></h2>
 <div class="grid">
-  <div class="card"><b id="oss-merged">73</b><span data-ru="принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности" data-en="pull requests merged into other people&#39;s projects — static analysis tools, SBOM tooling and security scanners">принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности</span></div>
-  <div class="card"><b id="oss-projects">45</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
-  <div class="card"><b id="oss-open">108</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
-  <div class="card"><b id="oss-repos">106</b><span data-ru="репозиториев, в которые отправлялись патчи" data-en="repositories patches were sent to">репозиториев, в которые отправлялись патчи</span></div>
+  <div class="card"><b id="oss-merged">66</b><span data-ru="принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности" data-en="pull requests merged into other people&#39;s projects — static analysis tools, SBOM tooling and security scanners">принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности</span></div>
+  <div class="card"><b id="oss-projects">40</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
+  <div class="card"><b id="oss-open">112</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
+  <div class="card"><b id="oss-repos">102</b><span data-ru="репозиториев, в которые отправлялись патчи" data-en="repositories patches were sent to">репозиториев, в которые отправлялись патчи</span></div>
 </div>
 <p class="meta" style="margin-top:14px">
   <span data-ru="Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление" data-en="Counters refreshed weekly from GitHub search · last updated">Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление</span>
-  <span id="oss-updated">18.09.2026</span> ·
+  <span id="oss-updated">09.09.2026</span> ·
   <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Amerged&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
 </p>
 
@@ -217,12 +217,23 @@ footer .prompt{color:var(--lime)}
 <div class="year">2026</div>
 
 <div class="item">
+  <h3 data-ru="Не все дефекты одинаковы: как структура SAST-находки ломает LLM-триаж" data-en="Not all defects are alike: how the structure of a SAST finding breaks LLM triage">Не все дефекты одинаковы: как структура SAST-находки ломает LLM-триаж</h3>
+  <p class="meta">ISCRA Talks 2026 · <span data-ru="зал «Квант» · 19 сентября 2026, Конгресс-холл МГТУ им. Н. Э. Баумана, Москва" data-en="Kvant hall · 19 September 2026, Bauman Moscow State Technical University congress hall, Moscow">зал «Квант» · 19 сентября 2026, Конгресс-холл МГТУ им. Н. Э. Баумана, Москва</span></p>
+  <p class="desc" data-ru="Срабатывания SAST делятся на два типа по форме доказательства: property — нарушение факта в одной точке кода, trace — путь данных от источника к опасной операции. Один универсальный вопрос «покажи путь атаки» на эксперименте из 38 классов дефектов похоронил 140 из 363 реальных уязвимостей. В докладе — роутер по структуре доказательства, семь подтипов property-сработок, evidence-gate и экзамен против 2 546 решений людей." data-en="SAST findings split into two kinds by the shape of their proof: property — a fact violated at a single point in the code, trace — a data path from source to sink. One universal question, &quot;show me the attack path&quot;, buried 140 of 363 real vulnerabilities across 38 defect classes. The talk covers the router over proof structure, the seven property subtypes, the evidence gate, and an exam against 2,546 human decisions.">Срабатывания SAST делятся на два типа по форме доказательства: property — нарушение факта в одной точке кода, trace — путь данных от источника к опасной операции. Один универсальный вопрос «покажи путь атаки» на эксперименте из 38 классов дефектов похоронил 140 из 363 реальных уязвимостей. В докладе — роутер по структуре доказательства, семь подтипов property-сработок, evidence-gate и экзамен против 2 546 решений людей.</p>
+  <p class="filelinks">
+    <a href="slides/Tumanov_ZeroFalse_ISCRA_2026.pdf" data-ru="Презентация (PDF)" data-en="Slides (PDF)">Презентация (PDF)</a>
+    <a href="https://iscra-talks.ru/#tracks" data-ru="Программа конференции" data-en="Conference programme">Программа конференции</a>
+  </p>
+</div>
+
+<div class="item">
   <h3 data-ru="ZeroFalse для SAST: локальные LLM, evidence-gate и триаж без галлюцинаций" data-en="ZeroFalse for SAST: local LLMs, evidence gating and triage without hallucinated verdicts">ZeroFalse для SAST: локальные LLM, evidence-gate и триаж без галлюцинаций</h3>
   <p class="meta">OFFZONE 2026 · AppSec.Zone · <span data-ru="20–21 августа 2026, Москва" data-en="20–21 August 2026, Moscow">20–21 августа 2026, Москва</span></p>
   <p class="desc" data-ru="Архитектура конвейера, эволюция промптов, evidence-gate, детерминированная поствалидация, метрики качества и случаи, в которых красивому ответу модели верить нельзя." data-en="Pipeline architecture, prompt evolution, the evidence gate, deterministic post-validation, quality metrics, and the cases where a convincing model answer must not be trusted.">Архитектура конвейера, эволюция промптов, evidence-gate, детерминированная поствалидация, метрики качества и случаи, в которых красивому ответу модели верить нельзя.</p>
   <p class="filelinks">
     <a href="https://vkvideo.ru/video-172362100_456239390?list=ln-YbfwmNCdSIArcm950D" data-ru="Видео" data-en="Video">Видео</a>
-    <a href="https://offzone.moscow/upload/iblock/b9f/4dpabonhkb2shd94u1amvqpxpqk2vgkm/AppSec_Zone_Tumanov_%D0%9EFFZONE2026.pdf" data-ru="Презентация" data-en="Slides">Презентация</a>
+    <a href="slides/Tumanov_ZeroFalse_OFFZONE_2026.pdf" data-ru="Презентация (PDF)" data-en="Slides (PDF)">Презентация (PDF)</a>
+    <a href="https://offzone.moscow/upload/iblock/b9f/4dpabonhkb2shd94u1amvqpxpqk2vgkm/AppSec_Zone_Tumanov_%D0%9EFFZONE2026.pdf" data-ru="Копия на сайте конференции" data-en="Copy on the conference site">Копия на сайте конференции</a>
     <a href="https://offzone.moscow/program/zerofalse-for-sast-local-llms-evidence-gating-and-triage-without-hallucinated-verdicts/" data-ru="Страница доклада" data-en="Talk page">Страница доклада</a>
   </p>
   <div class="video" data-src="https://vkvideo.ru/video_ext.php?oid=-172362100&amp;id=456239390&amp;hd=2&amp;autoplay=1">
