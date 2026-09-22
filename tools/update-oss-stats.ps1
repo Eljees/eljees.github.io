@@ -78,6 +78,23 @@ $html = [regex]::Replace($html, '(?<=<b id="oss-repos">)\d+(?=</b>)',    [string
 $html = [regex]::Replace($html, '(?<=<span id="oss-updated">)[^<]*(?=</span>)', $today)
 Save-Utf8 $indexPath $html
 
+# ── 1b. oss-stats.json — источник правды для страницы ───────────
+# Числа в index.html — всего лишь последний снимок для поисковиков и режима без JS.
+# Страница на загрузке читает oss-stats.json и переписывает их, поэтому коммит
+# index.html из устаревшей копии больше не показывает посетителям старые цифры.
+$jsonPath = Join-Path $SiteRoot 'oss-stats.json'
+$stats = [ordered]@{
+  merged          = $merged
+  open            = $open
+  closed_unmerged = $closed
+  total           = $total
+  projects        = $projects
+  repos           = $touched
+  updated         = $today
+  updated_iso     = $isoDate
+}
+Save-Utf8 $jsonPath (($stats | ConvertTo-Json) + "`n")
+
 # ── 2. oss.yaml ─────────────────────────────────────────────────
 $sb = [System.Text.StringBuilder]::new()
 [void]$sb.AppendLine('# Вклад в открытый код. Обновляется скриптом tools/update-oss-stats.ps1 раз в неделю.')
@@ -110,6 +127,7 @@ Save-Utf8 $mdPath $md
 # PowerShell считает это ошибкой и обрывает скрипт — поэтому глушим поток и
 # проверяем результат по коду возврата.
 $ErrorActionPreference = 'Continue'
+$failed = $false
 foreach ($dir in @($SiteRoot, $RepoRoot)) {
   $name = Split-Path -Leaf $dir
   Push-Location $dir
@@ -118,15 +136,29 @@ foreach ($dir in @($SiteRoot, $RepoRoot)) {
     if ($dirty) {
       git add -A 2>&1 | Out-Null
       git commit -m "Обновлены счётчики открытого кода: $merged смерджено, $open открыто ($today)" 2>&1 | Out-Null
-      if ($LASTEXITCODE -ne 0) { Log "$name : commit вернул $LASTEXITCODE"; Pop-Location; continue }
+      if ($LASTEXITCODE -ne 0) { Log "$name : commit вернул $LASTEXITCODE"; $failed = $true; Pop-Location; continue }
+      # На удалённой ветке могли появиться чужие коммиты — без этого push
+      # отлетает как non-fast-forward (локальная ветка не продолжение удалённой).
+      git pull --rebase 2>&1 | Out-Null
+      $code = $LASTEXITCODE
+      if ($code -ne 0) {
+        git rebase --abort 2>&1 | Out-Null
+        Log "$name : pull --rebase вернул $code — вероятен конфликт, push пропущен, нужны руки"
+        $failed = $true; Pop-Location; continue
+      }
       git push 2>&1 | Out-Null
-      if ($LASTEXITCODE -eq 0) { Log "$name : запушено" } else { Log "$name : push вернул $LASTEXITCODE" }
+      if ($LASTEXITCODE -eq 0) { Log "$name : запушено" } else { Log "$name : push вернул $LASTEXITCODE"; $failed = $true }
     } else {
       Log "$name : без изменений"
     }
   } catch {
     Log "$name : сбой — $($_.Exception.Message)"
+    $failed = $true
   }
   Pop-Location
+}
+if ($failed) {
+  Log '--- завершено с ошибками ---'
+  exit 1
 }
 Log '--- готово ---'
