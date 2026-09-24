@@ -76,6 +76,7 @@ $html = [regex]::Replace($html, '(?<=<b id="oss-open">)\d+(?=</b>)',     [string
 $html = [regex]::Replace($html, '(?<=<b id="oss-projects">)\d+(?=</b>)', [string]$projects)
 $html = [regex]::Replace($html, '(?<=<b id="oss-repos">)\d+(?=</b>)',    [string]$touched)
 $html = [regex]::Replace($html, '(?<=<span id="oss-updated">)[^<]*(?=</span>)', $today)
+$html = [regex]::Replace($html, '(?<=<span id="site-updated">)[^<]*(?=</span>)', $today)
 Save-Utf8 $indexPath $html
 
 # ── 1b. oss-stats.json — источник правды для страницы ───────────
@@ -94,6 +95,14 @@ $stats = [ordered]@{
   updated_iso     = $isoDate
 }
 Save-Utf8 $jsonPath (($stats | ConvertTo-Json) + "`n")
+
+# ── 1c. sitemap.xml — дата последнего изменения страницы ────────
+$sitemapPath = Join-Path $SiteRoot 'sitemap.xml'
+if (Test-Path $sitemapPath) {
+  $sm = Get-Content -Path $sitemapPath -Raw -Encoding utf8
+  $sm = [regex]::Replace($sm, '(?<=<lastmod>)[^<]*(?=</lastmod>)', $isoDate)
+  Save-Utf8 $sitemapPath $sm
+}
 
 # ── 2. oss.yaml ─────────────────────────────────────────────────
 $sb = [System.Text.StringBuilder]::new()
@@ -120,6 +129,7 @@ $mdPath = Join-Path $RepoRoot 'portfolio.md'
 $md = Get-Content -Path $mdPath -Raw -Encoding utf8
 $statLine = "**$merged** принятых pull request в **$projects** сторонних проектов, **$open** открытых, всего затронут **$touched** репозиторий. Данные на **$today**."
 $md = [regex]::Replace($md, '(?s)(?<=<!-- OSS-STATS -->\r?\n).*?(?=\r?\n<!-- /OSS-STATS -->)', $statLine)
+$md = [regex]::Replace($md, '(?m)^Актуально на .*$', ("Актуально на {0} · As of {1}" -f $today, $isoDate))
 Save-Utf8 $mdPath $md
 
 # ── 4. коммит и пуш ─────────────────────────────────────────────
