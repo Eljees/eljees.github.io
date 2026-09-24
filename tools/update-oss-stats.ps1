@@ -127,7 +127,7 @@ Save-Utf8 (Join-Path $RepoRoot 'oss.yaml') $sb.ToString()
 # ── 3. portfolio.md, блок между маркерами ───────────────────────
 $mdPath = Join-Path $RepoRoot 'portfolio.md'
 $md = Get-Content -Path $mdPath -Raw -Encoding utf8
-$statLine = "**$merged** принятых pull request в **$projects** сторонних проектов, **$open** открытых, всего затронут **$touched** репозиторий. Данные на **$today**."
+$statLine = "**$merged** принятых pull request в **$projects** сторонних проектов, **$open** открытых, всего затронуто **$touched** репозиториев. Данные на **$today**."
 $md = [regex]::Replace($md, '(?s)(?<=<!-- OSS-STATS -->\r?\n).*?(?=\r?\n<!-- /OSS-STATS -->)', $statLine)
 $md = [regex]::Replace($md, '(?m)^Актуально на .*$', ("Актуально на {0} · As of {1}" -f $today, $isoDate))
 Save-Utf8 $mdPath $md
