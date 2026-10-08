@@ -1,4 +1,4 @@
-﻿<#
+<#
     update-oss-stats.ps1 — обновляет счётчики вклада в открытый код.
 
     Что делает:
@@ -9,8 +9,12 @@
       4. коммитит и пушит оба репозитория, если что-то изменилось.
 
     Запуск вручную:  pwsh -File .\tools\update-oss-stats.ps1
-    Токен не нужен: используется анонимный API (лимит 10 поисковых запросов в минуту).
+    Используется GitHub CLI с существующей авторизованной сессией.
+    Проверка без записи и публикации: -VerifyOnly.
+    Полнота страниц и независимые счётчики проверяются до изменения файлов.
 #>
+
+param([switch]$VerifyOnly)
 
 $ErrorActionPreference = 'Stop'
 $Author = 'Eljees'
@@ -22,61 +26,83 @@ $LogFile  = Join-Path $PSScriptRoot 'update-oss-stats.log'
 function Log($m){
   $line = ('{0}  {1}' -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $m)
   Write-Host $line
-  Add-Content -Path $LogFile -Value $line -Encoding utf8
+  if (-not $VerifyOnly) { Add-Content -Path $LogFile -Value $line -Encoding utf8 }
 }
 
 function Save-Utf8($path, $text){
   [System.IO.File]::WriteAllText($path, $text, (New-Object System.Text.UTF8Encoding($false)))
 }
 
-$headers = @{ 'User-Agent' = 'eljees-portfolio-stats'; 'Accept' = 'application/vnd.github+json' }
+# gh uses the existing authenticated account; no credential is written to files.
+$ProfileToday = [TimeZoneInfo]::ConvertTimeBySystemTimeZoneId([datetime]::UtcNow, 'Russian Standard Time').Date
+$today = $ProfileToday.ToString('dd.MM.yyyy')
+$isoDate = $ProfileToday.ToString('yyyy-MM-dd')
+$periodStart = $ProfileToday.AddYears(-1).ToString('yyyy-MM-dd')
+$baseQuery = "is:pr author:$Author -user:$Author is:public"
+$windowQuery = "$baseQuery is:merged merged:$periodStart..$isoDate"
 
-function Search-Count($q){
-  $uri = 'https://api.github.com/search/issues?q={0}&per_page=1' -f [uri]::EscapeDataString($q)
-  (Invoke-RestMethod -Uri $uri -Headers $headers).total_count
+function Search-GitHub($q, $page = 1) {
+  $raw = & gh api --method GET search/issues -f "q=$q" -f 'per_page=100' -f "page=$page" -f 'sort=updated' -f 'order=desc'
+  if ($LASTEXITCODE -ne 0) { throw 'GitHub search failed; no statistics will be published' }
+  $result = ($raw -join "`n") | ConvertFrom-Json
+  if ($result.incomplete_results) { throw 'GitHub search is incomplete; no statistics will be published' }
+  return $result
 }
+function Search-Count($q) { (Search-GitHub $q).total_count }
 
 Log '--- старт ---'
+$merged = Search-Count "$baseQuery is:merged"
+$open = Search-Count "$baseQuery is:open"
+$closed = Search-Count "$baseQuery is:closed is:unmerged"
+$mergedYear = Search-Count $windowQuery
+$total = $merged + $open + $closed
+if ($total -eq 0 -or $total -gt 1000) { throw 'Empty or over-limit search; partition/review before publishing' }
 
-$merged = Search-Count "type:pr author:$Author is:merged -user:$Author";        Start-Sleep -Seconds 7
-$open   = Search-Count "type:pr author:$Author is:open -user:$Author";          Start-Sleep -Seconds 7
-$closed = Search-Count "type:pr author:$Author is:closed is:unmerged -user:$Author"; Start-Sleep -Seconds 7
-$total  = $merged + $open + $closed
-
-Log ("смерджено $merged, открыто $open, закрыто без принятия $closed, всего $total")
-
-# перечисляем все PR, чтобы получить список проектов
-$repos = @{}; $mergedRepos = @{}
+# Stable pagination, duplicate detection and independent counts prevent partial
+# project/repository counts from replacing the last verified snapshot.
+$items = @{}
 $pages = [math]::Ceiling($total / 100)
-if ($pages -lt 1) { $pages = 1 }
-if ($pages -gt 10) { $pages = 10 }   # потолок поиска GitHub — 1000 результатов
-foreach ($p in 1..$pages) {
-  $uri = 'https://api.github.com/search/issues?q={0}&per_page=100&page={1}' -f [uri]::EscapeDataString("type:pr author:$Author -user:$Author"), $p
-  $r = Invoke-RestMethod -Uri $uri -Headers $headers
-  foreach ($i in $r.items) {
-    $rp = $i.repository_url -replace 'https://api.github.com/repos/', ''
-    $repos[$rp] = 1
-    if ($i.pull_request.merged_at) { $mergedRepos[$rp] = 1 }
+foreach ($page in 1..$pages) {
+  $result = Search-GitHub $baseQuery $page
+  if ($result.total_count -ne $total) { throw 'Search changed during pagination; retry later' }
+  foreach ($item in $result.items) {
+    if ($items.ContainsKey($item.html_url)) { throw 'Duplicate search page item; retry later' }
+    $items[$item.html_url] = $item
   }
-  Start-Sleep -Seconds 7
 }
-$projects = $mergedRepos.Count
-$touched  = $repos.Count
-$today    = Get-Date -Format 'dd.MM.yyyy'
-$isoDate  = Get-Date -Format 'yyyy-MM-dd'
-Log ("проектов с принятыми патчами $projects, всего репозиториев $touched")
-
-if ($merged -eq 0 -and $open -eq 0) { Log 'пустой ответ API — выходим, ничего не трогаем'; exit 1 }
+if ($items.Count -ne $total) { throw 'Missing search results; no statistics will be published' }
+$repos = @{}; $mergedRepos = @{}
+$actualMerged=0; $actualOpen=0; $actualClosed=0; $actualYear=0
+foreach ($item in $items.Values) {
+  $rp = $item.repository_url -replace '^https://api.github.com/repos/', ''
+  $repos[$rp] = 1
+  if ($item.pull_request.merged_at) {
+    $actualMerged++; $mergedRepos[$rp] = 1
+    $mergeDate = ([datetimeoffset]$item.pull_request.merged_at).UtcDateTime.ToString('yyyy-MM-dd')
+    if ($mergeDate -ge $periodStart -and $mergeDate -le $isoDate) { $actualYear++ }
+  } elseif ($item.state -eq 'open') { $actualOpen++ } else { $actualClosed++ }
+}
+if ($actualMerged -ne $merged -or $actualOpen -ne $open -or $actualClosed -ne $closed -or $actualYear -ne $mergedYear) {
+  throw 'Full result set disagrees with independent count queries; no statistics will be published'
+}
+$projects = $mergedRepos.Count; $touched = $repos.Count
+Log "смерджено всего $merged, за 12 месяцев $mergedYear, открыто $open, закрыто без merge $closed; проектов $projects, репозиториев $touched"
+if ($VerifyOnly) {
+  [ordered]@{ merged=$merged; merged_12_months=$mergedYear; open=$open; closed_unmerged=$closed; total=$total; projects=$projects; repos=$touched; updated_iso=$isoDate; period_start=$periodStart } | ConvertTo-Json
+  exit 0
+}
 
 # ── 1. index.html ───────────────────────────────────────────────
 $indexPath = Join-Path $SiteRoot 'index.html'
 $html = Get-Content -Path $indexPath -Raw -Encoding utf8
-$html = [regex]::Replace($html, '(?<=<b id="oss-merged">)\d+(?=</b>)',   [string]$merged)
+$html = [regex]::Replace($html, '(?<=<b id="oss-merged">)\d+(?=</b>)',   [string]$mergedYear)
 $html = [regex]::Replace($html, '(?<=<b id="oss-open">)\d+(?=</b>)',     [string]$open)
 $html = [regex]::Replace($html, '(?<=<b id="oss-projects">)\d+(?=</b>)', [string]$projects)
 $html = [regex]::Replace($html, '(?<=<b id="oss-repos">)\d+(?=</b>)',    [string]$touched)
 $html = [regex]::Replace($html, '(?<=<span id="oss-updated">)[^<]*(?=</span>)', $today)
 $html = [regex]::Replace($html, '(?<=<span id="site-updated">)[^<]*(?=</span>)', $today)
+$mergedWindowUrl = 'https://github.com/search?q={0}&amp;type=pullrequests' -f [uri]::EscapeDataString($windowQuery)
+$html = [regex]::Replace($html, 'https://github.com/search\?q=[^"\n]+&amp;type=pullrequests(?=" data-ru="смерджённые")', $mergedWindowUrl)
 Save-Utf8 $indexPath $html
 
 # ── 1b. oss-stats.json — источник правды для страницы ───────────
@@ -86,6 +112,10 @@ Save-Utf8 $indexPath $html
 $jsonPath = Join-Path $SiteRoot 'oss-stats.json'
 $stats = [ordered]@{
   merged          = $merged
+  merged_12_months = $mergedYear
+  period_start    = $periodStart
+  period_end      = $isoDate
+  scope           = 'Public PRs authored by Eljees in repositories owned by others'
   open            = $open
   closed_unmerged = $closed
   total           = $total
@@ -110,16 +140,21 @@ $sb = [System.Text.StringBuilder]::new()
 [void]$sb.AppendLine('# Источник: публичный поиск GitHub по author:Eljees, исключая собственные репозитории (-user:Eljees).')
 [void]$sb.AppendLine("author: $Author")
 [void]$sb.AppendLine("updated: `"$isoDate`"")
+[void]$sb.AppendLine("period_start: `"$periodStart`"")
+[void]$sb.AppendLine("period_end: `"$isoDate`"")
 [void]$sb.AppendLine('counts:')
 [void]$sb.AppendLine("  merged: $merged          # принятых pull request в чужие проекты")
+[void]$sb.AppendLine("  merged_12_months: $mergedYear")
 [void]$sb.AppendLine("  open: $open           # открытых, ожидают решения мейнтейнеров")
 [void]$sb.AppendLine("  closed_unmerged: $closed # закрытых без принятия")
 [void]$sb.AppendLine("  total: $total")
 [void]$sb.AppendLine("  projects_with_merged: $projects   # проектов, куда приняли хотя бы один PR")
 [void]$sb.AppendLine("  repos_touched: $touched         # всего затронутых репозиториев")
 [void]$sb.AppendLine('query:')
-[void]$sb.AppendLine("  merged: `"type:pr author:$Author is:merged -user:$Author`"")
-[void]$sb.AppendLine("  open: `"type:pr author:$Author is:open -user:$Author`"")
+[void]$sb.AppendLine("  merged: `"$baseQuery is:merged`"")
+[void]$sb.AppendLine("  open: `"$baseQuery is:open`"")
+[void]$sb.AppendLine("  merged_12_months: `"$windowQuery`"")
+[void]$sb.AppendLine("  closed_unmerged: `"$baseQuery is:closed is:unmerged`"")
 [void]$sb.AppendLine('projects_with_merged:')
 foreach ($k in ($mergedRepos.Keys | Sort-Object)) { [void]$sb.AppendLine("  - $k") }
 Save-Utf8 (Join-Path $RepoRoot 'oss.yaml') $sb.ToString()
@@ -127,7 +162,7 @@ Save-Utf8 (Join-Path $RepoRoot 'oss.yaml') $sb.ToString()
 # ── 3. portfolio.md, блок между маркерами ───────────────────────
 $mdPath = Join-Path $RepoRoot 'portfolio.md'
 $md = Get-Content -Path $mdPath -Raw -Encoding utf8
-$statLine = "**$merged** принятых pull request в **$projects** сторонних проектов, **$open** открытых, всего затронуто **$touched** репозиториев. Данные на **$today**."
+$statLine = "**$mergedYear** публичных PR приняты в сторонние репозитории за последние 12 месяцев ($periodStart — $isoDate); **$open** PR открыты. За всё время: принятые патчи в **$projects** проектах, всего затронуто **$touched** репозиториев; **$closed** PR закрыты без merge. Данные на **$today**."
 $md = [regex]::Replace($md, '(?s)(?<=<!-- OSS-STATS -->\r?\n).*?(?=\r?\n<!-- /OSS-STATS -->)', $statLine)
 $md = [regex]::Replace($md, '(?m)^Актуально на .*$', ("Актуально на {0} · As of {1}" -f $today, $isoDate))
 Save-Utf8 $mdPath $md
@@ -144,7 +179,9 @@ foreach ($dir in @($SiteRoot, $RepoRoot)) {
   try {
     $dirty = git status --porcelain 2>&1 | Where-Object { $_ -notmatch '^warning:' }
     if ($dirty) {
-      git add -A 2>&1 | Out-Null
+      if ($dir -eq $SiteRoot) { git add -- index.html oss-stats.json sitemap.xml 2>&1 | Out-Null }
+      else { git add -- oss.yaml portfolio.md 2>&1 | Out-Null }
+      if (-not (git diff --cached --name-only)) { Pop-Location; continue }
       git commit -m "Обновлены счётчики открытого кода: $merged смерджено, $open открыто ($today)" 2>&1 | Out-Null
       if ($LASTEXITCODE -ne 0) { Log "$name : commit вернул $LASTEXITCODE"; $failed = $true; Pop-Location; continue }
       # На удалённой ветке могли появиться чужие коммиты — без этого push

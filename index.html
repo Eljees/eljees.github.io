@@ -231,15 +231,16 @@ footer .prompt{color:var(--lime)}
 
 <h2><span class="hash">//</span><span data-ru="Открытый код" data-en="Open source">Открытый код</span><span class="bar"></span></h2>
 <div class="grid">
-  <div class="card"><b id="oss-merged">116</b><span data-ru="принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности" data-en="pull requests merged into other people&#39;s projects — static analysis tools, SBOM tool and security scanners">принятых pull request в чужие проекты — инструменты статического анализа, SBOM и сканеры безопасности</span></div>
-  <div class="card"><b id="oss-projects">49</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
-  <div class="card"><b id="oss-open">135</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
-  <div class="card"><b id="oss-repos">117</b><span data-ru="репозиториев, в которые отправлялись патчи" data-en="repositories patches were sent to">репозиториев, в которые отправлялись патчи</span></div>
+  <div class="card"><b id="oss-merged">119</b><span data-ru="PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности" data-en="PRs merged into external projects over the past 12 months — static analysis, SBOM and security scanners">PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности</span></div>
+  <div class="card"><b id="oss-projects">58</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
+  <div class="card"><b id="oss-open">132</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
+  <div class="card"><b id="oss-repos">130</b><span data-ru="репозиториев, в которые отправлялись патчи" data-en="repositories patches were sent to">репозиториев, в которые отправлялись патчи</span></div>
 </div>
+<p class="meta" data-ru="Учитываются публичные PR автора Eljees вне собственных репозиториев. Принятые PR — за последние 12 месяцев; открытые PR — на дату проверки; проекты и репозитории — за всё время." data-en="Public PRs authored by Eljees outside own repositories. Merged PRs cover the past 12 months; open PRs are counted at verification; projects and repositories cover all time.">Учитываются публичные PR автора Eljees вне собственных репозиториев. Принятые PR — за последние 12 месяцев; открытые PR — на дату проверки; проекты и репозитории — за всё время.</p>
 <p class="meta" style="margin-top:14px">
   <span data-ru="Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление" data-en="Counters refreshed weekly from GitHub search · last updated">Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление</span>
-  <span id="oss-updated">02.10.2026</span> ·
-  <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Amerged&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
+  <span id="oss-updated">08.10.2026</span> ·
+  <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic+is%3Amerged+merged%3A2025-10-08..2026-10-08&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
 </p>
 
 <h2><span class="hash">//</span><span data-ru="Выступления" data-en="Talks">Выступления</span><span class="bar"></span></h2>
@@ -491,7 +492,7 @@ footer .prompt{color:var(--lime)}
 </ul>
 
 <footer>
-  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">02.10.2026</span> ·
+  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">08.10.2026</span> ·
   <a href="https://github.com/Eljees/eljees.github.io">source</a>
 </footer>
 
@@ -548,7 +549,7 @@ document.querySelectorAll('.video').forEach(function(box){
     .then(function (d) {
       if (!d) return;
       var map = {
-        'oss-merged':   d.merged,
+        'oss-merged':   d.merged_12_months !== undefined ? d.merged_12_months : d.merged,
         'oss-open':     d.open,
         'oss-projects': d.projects,
         'oss-repos':    d.repos,

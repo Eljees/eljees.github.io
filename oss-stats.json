@@ -1,10 +1,14 @@
 {
-    "merged":  116,
-    "open":  135,
-    "closed_unmerged":  28,
-    "total":  279,
-    "projects":  49,
-    "repos":  117,
-    "updated":  "02.10.2026",
-    "updated_iso":  "2026-10-02"
+  "merged": 119,
+  "merged_12_months": 119,
+  "open": 132,
+  "closed_unmerged": 28,
+  "total": 279,
+  "projects": 58,
+  "repos": 130,
+  "updated": "08.10.2026",
+  "updated_iso": "2026-10-08",
+  "period_start": "2025-10-08",
+  "period_end": "2026-10-08",
+  "scope": "Public PRs authored by Eljees in repositories owned by others"
 }
