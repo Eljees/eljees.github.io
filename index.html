@@ -145,6 +145,16 @@ h3{font:600 17px/1.4 var(--sans);margin:0 0 6px;color:var(--fg-bright)}
   border-bottom:1px solid rgba(38,224,255,.35)}
 .filelinks a::before{content:"▸ ";color:var(--mag)}
 
+/* Фотографии доклада: полный кадр доступен по клику. */
+.talk-photos{display:grid;gap:18px;margin:0 0 30px}
+.talk-photo{margin:0;border:1px solid var(--line);background:var(--panel);overflow:hidden}
+.talk-photo a{display:block;overflow:hidden}
+.talk-photo a:focus-visible{outline:2px solid var(--cyan);outline-offset:-3px}
+.talk-photo img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;object-position:50% 28%}
+.talk-photo.secondary img{object-position:50% 75%}
+.talk-photo figcaption{padding:12px 16px;font:400 12px/1.6 var(--mono);color:var(--dim)}
+@media(min-width:620px){.talk-photos{grid-template-columns:1fr 1fr}}
+
 /* ── встроенные плееры ─────────────────────────────── */
 .video{position:relative;margin:14px 0 0;max-width:560px;aspect-ratio:16/9;
   border:1px solid var(--line-hot);background:
@@ -244,6 +254,20 @@ footer .prompt{color:var(--lime)}
 </p>
 
 <h2><span class="hash">//</span><span data-ru="Выступления" data-en="Talks">Выступления</span><span class="bar"></span></h2>
+<div class="talk-photos" id="talk-photos">
+  <figure class="talk-photo">
+    <a href="assets/photos/iscra-talks-stage.png" aria-label="ISCRA Talks: открыть полное фото со сцены / open full stage photo">
+      <img src="assets/photos/iscra-talks-stage.png" width="1080" height="1920" loading="lazy" decoding="async" alt="Юрий Туманов с микрофоном на сцене ISCRA Talks / Yuriy Tumanov speaking at ISCRA Talks">
+    </a>
+    <figcaption data-ru="ISCRA Talks · на сцене" data-en="ISCRA Talks · on stage">ISCRA Talks · на сцене</figcaption>
+  </figure>
+  <figure class="talk-photo secondary">
+    <a href="assets/photos/iscra-talks-audience.png" aria-label="ISCRA Talks: открыть полное фото из зала / open full audience-view photo">
+      <img src="assets/photos/iscra-talks-audience.png" width="1080" height="1920" loading="lazy" decoding="async" alt="Выступление Юрия Туманова на ISCRA Talks, вид из зала / Yuriy Tumanov at ISCRA Talks, audience view">
+    </a>
+    <figcaption data-ru="ISCRA Talks · кадр из зала" data-en="ISCRA Talks · audience view">ISCRA Talks · кадр из зала</figcaption>
+  </figure>
+</div>
 
 <div class="year">2026</div>
 
@@ -492,7 +516,7 @@ footer .prompt{color:var(--lime)}
 </ul>
 
 <footer>
-  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">08.10.2026</span> ·
+  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">11.10.2026</span> ·
   <a href="https://github.com/Eljees/eljees.github.io">source</a>
 </footer>
 
@@ -553,8 +577,7 @@ document.querySelectorAll('.video').forEach(function(box){
         'oss-open':     d.open,
         'oss-projects': d.projects,
         'oss-repos':    d.repos,
-        'oss-updated':  d.updated,
-        'site-updated': d.updated
+        'oss-updated':  d.updated
       };
       Object.keys(map).forEach(function (id) {
         var el = document.getElementById(id), v = map[id];
