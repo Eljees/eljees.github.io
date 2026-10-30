@@ -202,6 +202,12 @@ footer .prompt{color:var(--lime)}
   .topbar{flex-direction:column;align-items:flex-start;gap:12px}
   .bgfx{opacity:.9}
 }
+
+.conference-media{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin:22px 0}
+.conference-media figure{margin:0;min-width:0}
+.conference-media img{display:block;width:100%;height:240px;object-fit:contain;background:#101820;border:1px solid var(--line)}
+.conference-media .venue-photo{object-fit:cover}
+.conference-media figcaption{font-size:12px;line-height:1.6;color:var(--dim);margin-top:8px}
 </style>
 </head>
 <body>
@@ -241,16 +247,16 @@ footer .prompt{color:var(--lime)}
 
 <h2><span class="hash">//</span><span data-ru="Открытый код" data-en="Open source">Открытый код</span><span class="bar"></span></h2>
 <div class="grid">
-  <div class="card"><b id="oss-merged">125</b><span data-ru="PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности" data-en="PRs merged into external projects over the past 12 months — static analysis, SBOM and security scanners">PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности</span></div>
-  <div class="card"><b id="oss-projects">61</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
-  <div class="card"><b id="oss-open">130</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
+  <div class="card"><b id="oss-merged">127</b><span data-ru="PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности" data-en="PRs merged into external projects over the past 12 months — static analysis, SBOM and security scanners">PR, принятых в сторонние проекты за последние 12 месяцев — статический анализ, SBOM и сканеры безопасности</span></div>
+  <div class="card"><b id="oss-projects">63</b><span data-ru="проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие" data-en="projects with at least one accepted patch: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs and others">проектов, куда принят хотя бы один патч: pylint, rubocop, PMD, spotbugs, syft, grype, kubescape, MobSF, sqlfluff, detekt, sbomqs и другие</span></div>
+  <div class="card"><b id="oss-open">128</b><span data-ru="открытых pull request — ждут решения мейнтейнеров" data-en="open pull requests — awaiting maintainer decisions">открытых pull request — ждут решения мейнтейнеров</span></div>
   <div class="card"><b id="oss-repos">133</b><span data-ru="репозиториев, в которые отправлялись патчи" data-en="repositories patches were sent to">репозиториев, в которые отправлялись патчи</span></div>
 </div>
 <p class="meta" data-ru="Учитываются публичные PR автора Eljees вне собственных репозиториев. Принятые PR — за последние 12 месяцев; открытые PR — на дату проверки; проекты и репозитории — за всё время." data-en="Public PRs authored by Eljees outside own repositories. Merged PRs cover the past 12 months; open PRs are counted at verification; projects and repositories cover all time.">Учитываются публичные PR автора Eljees вне собственных репозиториев. Принятые PR — за последние 12 месяцев; открытые PR — на дату проверки; проекты и репозитории — за всё время.</p>
 <p class="meta" style="margin-top:14px">
   <span data-ru="Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление" data-en="Counters refreshed weekly from GitHub search · last updated">Счётчик обновляется еженедельно по данным поиска GitHub · последнее обновление</span>
-  <span id="oss-updated">29.10.2026</span> ·
-  <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic+is%3Amerged+merged%3A2025-10-29..2026-10-29&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
+  <span id="oss-updated">30.10.2026</span> ·
+  <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic+is%3Amerged+merged%3A2025-10-30..2026-10-30&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
 </p>
 
 <h2><span class="hash">//</span><span data-ru="Выступления" data-en="Talks">Выступления</span><span class="bar"></span></h2>
@@ -270,6 +276,18 @@ footer .prompt{color:var(--lime)}
 </div>
 
 <div class="year">2026</div>
+
+<div class="item" id="ccci-2026">
+  <h3>Evidence-Gated SAST Triage with Small Local LLMs: A ZeroFalse-Inspired Precision-First Pipeline</h3>
+  <p class="meta" data-ru="IEEE CCCI 2026 · Cybersecurity 1 · 17 октября 2026 · Шанхай, Китай · доклад по видеосвязи из Шанхая" data-en="IEEE CCCI 2026 · Cybersecurity 1 · 17 October 2026 · Shanghai, China · presented by video link from Shanghai">IEEE CCCI 2026 · Cybersecurity 1 · 17 октября 2026 · Шанхай, Китай · доклад по видеосвязи из Шанхая</p>
+  <p class="desc" data-ru="Доказательный триаж SAST с помощью малых локальных LLM: проверяемые улики до вердикта, детерминированная поствалидация и Unknown при недостатке данных. Доклад состоялся в секции Cybersecurity 1. Конференция проходила 16–18 октября; сертификат подтверждает онлайн-участие." data-en="Evidence-gated SAST triage with small local LLMs: verifiable evidence before a verdict, deterministic post-validation, and Unknown when evidence is insufficient. Presented in the Cybersecurity 1 session. The conference ran on 16–18 October; the certificate confirms online attendance.">Доказательный триаж SAST с помощью малых локальных LLM: проверяемые улики до вердикта, детерминированная поствалидация и Unknown при недостатке данных. Доклад состоялся в секции Cybersecurity 1. Конференция проходила 16–18 октября; сертификат подтверждает онлайн-участие.</p>
+  <p class="filelinks"><a href="assets/certificates/ccci-2026-attendance-tumanov.pdf" data-ru="Сертификат участия (PDF)" data-en="Certificate of attendance (PDF)">Сертификат участия (PDF)</a><a href="https://ccci.udg.edu/CCCI2026_program_brochure_v2.pdf#page=16" data-ru="Доклад в программе · с. 16" data-en="Talk in the programme · p. 16">Доклад в программе · с. 16</a></p>
+  <div class="conference-media">
+    <figure><a href="assets/certificates/ccci-2026-attendance-tumanov.pdf"><img src="assets/certificates/ccci-2026-attendance-tumanov.png" width="1061" height="1500" loading="lazy" decoding="async" alt="Сертификат онлайн-участия Юрия Туманова в IEEE CCCI 2026 / Yury Tumanov's IEEE CCCI 2026 online attendance certificate"></a><figcaption data-ru="Сертификат участия · IEEE CCCI 2026 · выдан 17 октября 2026" data-en="Certificate of attendance · IEEE CCCI 2026 · issued 17 October 2026">Сертификат участия · IEEE CCCI 2026 · выдан 17 октября 2026</figcaption></figure>
+    <figure><a href="assets/photos/ccci-2026-novotel-shanghai-caohejing.jpg"><img class="venue-photo" src="assets/photos/ccci-2026-novotel-shanghai-caohejing.jpg" width="1226" height="871" loading="lazy" decoding="async" alt="Novotel Shanghai Caohejing, отель из списка CCCI 2026 / a hotel listed by CCCI 2026"></a><figcaption>Novotel Shanghai Caohejing · <span data-ru="отель из списка CCCI 2026 · фото:" data-en="hotel listed by CCCI 2026 · photo:">отель из списка CCCI 2026 · фото:</span> <a href="https://ccci.udg.edu/venue.php" data-ru="сайт конференции" data-en="conference website">сайт конференции</a></figcaption></figure>
+  </div>
+</div>
+
 
 <div class="item">
   <h3 data-ru="Не все дефекты одинаковы: как структура SAST-находки ломает LLM-триаж" data-en="Not all defects are alike: how the structure of a SAST finding breaks LLM triage">Не все дефекты одинаковы: как структура SAST-находки ломает LLM-триаж</h3>
@@ -421,7 +439,8 @@ footer .prompt{color:var(--lime)}
 
 <div class="item">
   <h3>Evidence-Gated SAST Triage with Small Local LLMs: A ZeroFalse-Inspired Precision-First Pipeline</h3>
-  <p class="meta" data-ru="CCCI 2026 · принято к публикации" data-en="CCCI 2026 · accepted">CCCI 2026 · принято к публикации</p>
+  <p class="meta" data-ru="IEEE CCCI 2026 · доклад состоялся 17 октября 2026 · ожидается публикация сборника" data-en="IEEE CCCI 2026 · presented 17 October 2026 · proceedings publication pending">IEEE CCCI 2026 · доклад состоялся 17 октября 2026 · ожидается публикация сборника</p>
+  <p class="filelinks"><a href="#ccci-2026" data-ru="Выступление и сертификат" data-en="Presentation and certificate">Выступление и сертификат</a></p>
 </div>
 
 <div class="year">2012</div>
@@ -516,7 +535,7 @@ footer .prompt{color:var(--lime)}
 </ul>
 
 <footer>
-  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">29.10.2026</span> ·
+  <span class="prompt">$</span> <span data-ru="обновлено" data-en="updated">обновлено</span> <span id="site-updated">30.10.2026</span> ·
   <a href="https://github.com/Eljees/eljees.github.io">source</a>
 </footer>
 
