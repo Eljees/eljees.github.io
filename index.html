@@ -289,22 +289,63 @@ footer .prompt{color:var(--lime)}
     <li>
       <h3>Syft #5080</h3>
       <p class="meta" data-ru="Упоминание в релизе" data-en="Release credit">Упоминание в релизе</p>
-      <p class="desc" data-ru="Исправила нормализацию лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов." data-en="Fixed license normalization for Eclipse and GlassFish JARs: Syft now preserves the Classpath Exception and correctly represents the license expression.">Исправила нормализацию лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов.</p>
+      <p class="desc" data-ru="Исправлена нормализация лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов." data-en="Fixed license normalization for Eclipse and GlassFish JARs: Syft now preserves the Classpath Exception and correctly represents the license expression.">Исправлена нормализация лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов.</p>
       <p class="filelinks"><a href="https://github.com/anchore/syft/pull/5080">PR</a><a href="https://github.com/anchore/syft/releases/tag/v1.57.2" data-ru="Релиз v1.57.2 · @Eljees" data-en="v1.57.2 release · @Eljees">Релиз v1.57.2 · @Eljees</a></p>
     </li>
     <li>
       <h3>ShellCheck #3520</h3>
       <p class="meta" data-ru="Благодарность мейнтейнера" data-en="Maintainer thanks">Благодарность мейнтейнера</p>
-      <p class="desc" data-ru="Убрала ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен." data-en="Avoided a false SC2218 warning when the order of another definition of the same function is unknown.">Убрала ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен.</p>
+      <p class="desc" data-ru="Убрано ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен." data-en="Avoided a false SC2218 warning when the order of another definition of the same function is unknown.">Убрано ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен.</p>
       <p class="oss-quote"><q lang="en">Thanks!</q> <cite>@koalaman</cite></p>
       <p class="filelinks"><a href="https://github.com/koalaman/shellcheck/pull/3520">PR</a><a href="https://github.com/koalaman/shellcheck/pull/3520#issuecomment-6730013971" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a></p>
     </li>
     <li>
       <h3>Lizard #490</h3>
       <p class="meta" data-ru="Благодарность мейнтейнера" data-en="Maintainer thanks">Благодарность мейнтейнера</p>
-      <p class="desc" data-ru="Исправила разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями." data-en="Fixed Objective-C parsing so class extensions and categories with instance-variable blocks are no longer counted as functions.">Исправила разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями.</p>
+      <p class="desc" data-ru="Исправлен разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями." data-en="Fixed Objective-C parsing so class extensions and categories with instance-variable blocks are no longer counted as functions.">Исправлен разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями.</p>
       <p class="oss-quote"><q lang="en">thanks for the clear diagnosis of #305</q> <cite>@terryyin</cite></p>
       <p class="filelinks"><a href="https://github.com/terryyin/lizard/pull/490">PR</a><a href="https://github.com/terryyin/lizard/pull/490#issuecomment-6699902010" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a></p>
+    </li>
+    <li>
+      <h3>NullAway #1679</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера" data-en="Maintainer thanks">Благодарность мейнтейнера</p>
+      <p class="desc" data-ru="При анализе ссылок на методы теперь учитывается @Contract, даже если возвращаемое значение помечено @Nullable." data-en="Method-reference analysis now honors @Contract even for methods with a @Nullable return type.">При анализе ссылок на методы теперь учитывается @Contract, даже если возвращаемое значение помечено @Nullable.</p>
+      <p class="oss-quote"><q lang="en">This is a beautiful fix and a great explanation.  Thank you!!</q> <cite>@msridhar</cite></p>
+      <p class="filelinks"><a href="https://github.com/uber/NullAway/pull/1679">PR</a><a href="https://github.com/uber/NullAway/pull/1679#pullrequestreview-4887156074" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a></p>
+    </li>
+    <li>
+      <h3>cargo-llvm-cov #507</h3>
+      <p class="meta" data-ru="Благодарность в примечаниях к релизу" data-en="Thanks in the release notes">Благодарность в примечаниях к релизу</p>
+      <p class="desc" data-ru="Восстановлен сбор покрытия doctest в многопакетных рабочих пространствах на Rust 2024." data-en="Restored doctest coverage in multi-package Rust 2024 workspaces.">Восстановлен сбор покрытия doctest в многопакетных рабочих пространствах на Rust 2024.</p>
+      <p class="oss-quote"><q lang="en">thanks @Eljees</q></p>
+      <p class="filelinks"><a href="https://github.com/taiki-e/cargo-llvm-cov/pull/507">PR</a><a href="https://github.com/taiki-e/cargo-llvm-cov/releases/tag/v0.9.0" data-ru="Релиз v0.9.0" data-en="Release v0.9.0">Релиз v0.9.0</a></p>
+    </li>
+    <li>
+      <h3>RustSec / cargo-audit #1671</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера и упоминание в релизе" data-en="Maintainer thanks and release credit">Благодарность мейнтейнера и упоминание в релизе</p>
+      <p class="desc" data-ru="В JSON-отчёте теперь видно, какие категории предупреждений флаг --deny превращает в ошибки." data-en="The JSON report now shows which warning categories --deny promotes to errors.">В JSON-отчёте теперь видно, какие категории предупреждений флаг --deny превращает в ошибки.</p>
+      <p class="oss-quote"><q lang="en">Thanks, this looks good to me!</q> <cite>@djc</cite></p>
+      <p class="filelinks"><a href="https://github.com/rustsec/rustsec/pull/1671">PR</a><a href="https://github.com/rustsec/rustsec/pull/1671#pullrequestreview-5668805845" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a><a href="https://github.com/rustsec/rustsec/releases/tag/cargo-audit/v0.23.0" data-ru="Релиз v0.23.0" data-en="Release v0.23.0">Релиз v0.23.0</a></p>
+    </li>
+    <li>
+      <h3>MobSF #2638</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера и упоминание в релизе" data-en="Maintainer thanks and release credit">Благодарность мейнтейнера и упоминание в релизе</p>
+      <p class="desc" data-ru="Правило Android для getSharedPreferences теперь проверяет буквальное значение аргумента режима." data-en="The Android getSharedPreferences rule now checks the literal mode argument.">Правило Android для getSharedPreferences теперь проверяет буквальное значение аргумента режима.</p>
+      <p class="oss-quote"><q lang="en">Thanks for the PR.</q> <cite>@ajinabraham</cite></p>
+      <p class="filelinks"><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF/pull/2638">PR</a><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF/pull/2638#pullrequestreview-4892886087" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a><a href="https://github.com/MobSF/Mobile-Security-Framework-MobSF/releases/tag/v4.5.2" data-ru="Релиз v4.5.2" data-en="Release v4.5.2">Релиз v4.5.2</a></p>
+    </li>
+    <li>
+      <h3>Brakeman #2052</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера и упоминание в релизе" data-en="Maintainer thanks and release credit">Благодарность мейнтейнера и упоминание в релизе</p>
+      <p class="desc" data-ru="Вывод Haml::AttributeBuilder.build_class теперь распознаётся как экранированный." data-en="Haml::AttributeBuilder.build_class output is now recognized as escaped.">Вывод Haml::AttributeBuilder.build_class теперь распознаётся как экранированный.</p>
+      <p class="oss-quote"><q lang="en">Thanks!</q> <cite>@presidentbeef</cite></p>
+      <p class="filelinks"><a href="https://github.com/presidentbeef/brakeman/pull/2052">PR</a><a href="https://github.com/presidentbeef/brakeman/pull/2052#issuecomment-5824791113" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a><a href="https://github.com/presidentbeef/brakeman/releases/tag/v8.1.0" data-ru="Релиз v8.1.0" data-en="Release v8.1.0">Релиз v8.1.0</a></p>
+    </li>
+    <li>
+      <h3>CycloneDX .NET #1128</h3>
+      <p class="meta" data-ru="Упоминание в релизе" data-en="Release credit">Упоминание в релизе</p>
+      <p class="desc" data-ru="При определении имени сборки теперь подставляется $(RootNamespace), в том числе со вложенным $(MSBuildProjectName)." data-en="Assembly-name resolution now substitutes $(RootNamespace), including nested $(MSBuildProjectName) tokens.">При определении имени сборки теперь подставляется $(RootNamespace), в том числе со вложенным $(MSBuildProjectName).</p>
+      <p class="filelinks"><a href="https://github.com/CycloneDX/cyclonedx-dotnet/pull/1128">PR</a><a href="https://github.com/CycloneDX/cyclonedx-dotnet/releases/tag/v6.3.0" data-ru="Релиз v6.3.0" data-en="Release v6.3.0">Релиз v6.3.0</a></p>
     </li>
   </ul>
 </details>
