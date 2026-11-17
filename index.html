@@ -225,6 +225,13 @@ footer .prompt{color:var(--lime)}
 .speaker-comment blockquote p{margin:0 0 16px}
 .speaker-comment blockquote footer{margin:0;padding:0;border:0;font:400 12px/1.6 var(--mono);letter-spacing:0;color:var(--dim)}
 .speaker-comment cite{font-style:normal}
+.oss-cases ul{list-style:none;padding:0;margin:12px 0 0}
+.oss-cases li{padding:14px 0;border-top:1px solid var(--line)}
+.oss-cases li:last-child{padding-bottom:0}
+.oss-cases h3{margin:0 0 4px}
+.oss-cases .desc{margin:6px 0 0}
+.oss-cases .oss-quote{margin:8px 0 0;color:var(--fg);overflow-wrap:anywhere}
+.oss-cases cite{margin-left:6px;color:var(--dim);font:400 12px/1.5 var(--mono)}
 </style>
 </head>
 <body>
@@ -275,6 +282,32 @@ footer .prompt{color:var(--lime)}
   <span id="oss-updated">15.11.2026</span> ·
   <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic+is%3Amerged+merged%3A2025-11-15..2026-11-15&amp;type=pullrequests" data-ru="смерджённые" data-en="merged">смерджённые</a> · <a href="https://github.com/search?q=is%3Apr+author%3AEljees+-user%3AEljees+is%3Apublic&amp;type=pullrequests" data-ru="все PR" data-en="all PRs">все PR</a>
 </p>
+
+<details class="speaker-comment oss-cases" id="oss-recognition">
+  <summary data-ru="Отметки мейнтейнеров и релизы" data-en="Maintainer feedback and release credits">Отметки мейнтейнеров и релизы</summary>
+  <ul>
+    <li>
+      <h3>Syft #5080</h3>
+      <p class="meta" data-ru="Упоминание в релизе" data-en="Release credit">Упоминание в релизе</p>
+      <p class="desc" data-ru="Исправила нормализацию лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов." data-en="Fixed license normalization for Eclipse and GlassFish JARs: Syft now preserves the Classpath Exception and correctly represents the license expression.">Исправила нормализацию лицензий Eclipse и GlassFish: Syft теперь сохраняет Classpath Exception и корректно передаёт сочетание лицензий JAR-пакетов.</p>
+      <p class="filelinks"><a href="https://github.com/anchore/syft/pull/5080">PR</a><a href="https://github.com/anchore/syft/releases/tag/v1.57.2" data-ru="Релиз v1.57.2 · @Eljees" data-en="v1.57.2 release · @Eljees">Релиз v1.57.2 · @Eljees</a></p>
+    </li>
+    <li>
+      <h3>ShellCheck #3520</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера" data-en="Maintainer thanks">Благодарность мейнтейнера</p>
+      <p class="desc" data-ru="Убрала ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен." data-en="Avoided a false SC2218 warning when the order of another definition of the same function is unknown.">Убрала ложное предупреждение SC2218, когда порядок другого определения одноимённой функции неизвестен.</p>
+      <p class="oss-quote"><q lang="en">Thanks!</q> <cite>@koalaman</cite></p>
+      <p class="filelinks"><a href="https://github.com/koalaman/shellcheck/pull/3520">PR</a><a href="https://github.com/koalaman/shellcheck/pull/3520#issuecomment-6730013971" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a></p>
+    </li>
+    <li>
+      <h3>Lizard #490</h3>
+      <p class="meta" data-ru="Благодарность мейнтейнера" data-en="Maintainer thanks">Благодарность мейнтейнера</p>
+      <p class="desc" data-ru="Исправила разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями." data-en="Fixed Objective-C parsing so class extensions and categories with instance-variable blocks are no longer counted as functions.">Исправила разбор Objective-C: расширения классов и категории с блоками переменных экземпляра больше не считаются функциями.</p>
+      <p class="oss-quote"><q lang="en">thanks for the clear diagnosis of #305</q> <cite>@terryyin</cite></p>
+      <p class="filelinks"><a href="https://github.com/terryyin/lizard/pull/490">PR</a><a href="https://github.com/terryyin/lizard/pull/490#issuecomment-6699902010" data-ru="Комментарий мейнтейнера" data-en="Maintainer comment">Комментарий мейнтейнера</a></p>
+    </li>
+  </ul>
+</details>
 
 <h2><span class="hash">//</span><span data-ru="Выступления" data-en="Talks">Выступления</span><span class="bar"></span></h2>
 <div class="talk-photos" id="talk-photos">
